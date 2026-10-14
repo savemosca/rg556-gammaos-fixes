@@ -1,0 +1,13 @@
+RG556 GammaOS fixes
+
+The source patch targets GammaOS Next / LineageOS / Android Open Source Project
+code. Upstream authors retain their copyrights in the original code.
+
+Upstream projects:
+https://github.com/TheGammaSqueeze/GammaOSNext
+https://github.com/TheGammaSqueeze/GammaOSNextDistribution-14
+
+This is an independent, unofficial repair project. It is not an official
+GammaOS release. Original firmware, framework JARs and device logs are not
+distributed in this repository. Build outputs contain code from the locally
+supplied firmware and must be handled according to its applicable licenses.

@@ -1,0 +1,18 @@
+--- a/frameworks/base/services/core/java/com/android/server/wm/WindowOrientationListener.java
++++ b/frameworks/base/services/core/java/com/android/server/wm/WindowOrientationListener.java
+@@ -1150,10 +1150,12 @@
+         @Override
+         public void onSensorChanged(SensorEvent event) {
+             final int raw = (int) event.values[0];
++            // TYPE_DEVICE_ORIENTATION can report -1 when orientation is unknown.
++            // Validate the raw reading before wrapping valid rotations by offset.
++            if (raw < 0 || raw > 3) {
++                return;
++            }
+             int reportedRotation = (raw + WindowOrientationListener.this.mSysuiAccelOffset) & 3;
+-            if (reportedRotation < 0 || reportedRotation > 3) {
+-                return;
+-            }
+ 
+             FrameworkStatsLog.write(
+                     FrameworkStatsLog.DEVICE_ROTATED,
