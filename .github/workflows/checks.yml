@@ -31,3 +31,10 @@ jobs:
         run: |
           c++ -std=c++17 -Wall -Wextra -Werror diagnostics/standby_cycle.cpp -o build/standby-cycle
           sh -n diagnostics/reproduce-wifi.sh
+      - name: Validate and package USB audio fix
+        run: |
+          python3 -m py_compile usb_audio/build_module.py
+          sh -n usb_audio/module/compat.sh
+          sh -n usb_audio/module/customize.sh
+          sh -n usb_audio/module/post-fs-data.sh
+          python3 usb_audio/build_module.py

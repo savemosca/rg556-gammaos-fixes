@@ -56,18 +56,19 @@ modules were disabled.
 
 ## Limits and integration
 
-No USB audio endpoint was available in the runtime snapshot, and the USB HAL
-reported no input or output streams. The review establishes that Android loaded
-the intended topology, not that a particular accessory plays or records audio
-correctly. Future validation needs playback, recording where supported, output
-switching back to the speaker, and reconnect/resume checks with the actual
-accessory. Speaker, jack and Bluetooth regression checks should accompany it.
+The device owner reports that version 1.0 worked when they tested it. No USB
+audio endpoint was available in the review's runtime snapshot, and the USB HAL
+reported no input or output streams. The independent checks establish that
+Android loaded the intended topology; they do not repeat the owner's accessory
+test. Recording, output switching and reconnect/resume remain useful extended
+checks where those have not already been tested.
 
-The installed module carries a complete static copy of the vendor XML and has
+The inspected 1.0 module carries a complete static copy of the vendor XML and has
 no custom installer compatibility guard. It could replace a newer firmware's
 policy with an older snapshot. A reusable installer should verify the device
 and original policy fingerprint, or transform and validate the device's current
-policy with explicit compatibility checks.
+policy with explicit compatibility checks. [Version 1.1](../usb_audio/README.md)
+now implements the guarded transformation and an additional boot-time check.
 
 A native RG556 image can apply these same semantic edits to its **vendor audio
 policy**, preserving unrelated device-specific configuration. Merely rebuilding
