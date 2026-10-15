@@ -87,6 +87,15 @@ The isolated pre-mount boot check passed with the real original vendor policies.
 In the staging directory it also disabled an altered payload, then accepted the
 verified payload again after a simulated manual re-enable.
 The generated XML is semantically identical to the working 1.0 payload; its only
-additional changes are indentation and a blank line. Version 1.1 has not been
-activated through a real device reboot as part of this update. The functional
-result reported by the owner applies to the 1.0 routing being preserved here.
+additional changes are indentation and a blank line.
+
+Version 1.1 was subsequently installed through the Magisk CLI and activated by
+a real RG556 reboot on 15 October 2026. Boot completed, the compatibility guard
+passed, and the mounted policy matched the expected hash above. AudioPolicy
+declared all four USB device types only in the dedicated USB module, and the
+boot crash log was empty. The original 1.0 module was updated in place.
+
+No USB accessory was attached during this post-reboot verification. The owner's
+functional result applies to the 1.0 routing preserved by 1.1; playback and
+capture with the accessory have not been independently repeated after this
+update.
