@@ -30,6 +30,47 @@ Related upstream report:
 The Wi-Fi sleep fix for RG DS Plus is for different hardware and is not proof of
 an RG556 driver fix.
 
+## Investigation of a native fix
+
+Read-only inspection of the test RG556 established:
+
+- The running vendor kernel is 5.4.233, built in February 2024 with Android
+  Clang 12.0.5. Its configuration can be read from /proc/config.gz.
+- The Wi-Fi stack uses sprd_wlan_combo.ko and wcn_bsp.ko over SDIO. The Wi-Fi
+  module also depends on sipa-core and sipc-core.
+- CONFIG_MODVERSIONS is enabled and module signing is disabled. Replacement
+  modules still need matching exported-symbol CRCs, configuration and structure
+  layouts; changing a module's version string does not establish compatibility.
+- WoWLAN was already enabled with the "any" trigger on the recovered device.
+  Enabling that option is therefore not an established fix for this fault.
+
+Public source leads exist, but neither has been established as an exact match
+for the installed RG556 binaries:
+
+- [Realme C51/C53 Android T source, SC2355 driver](https://github.com/realme-kernel-opensource/realme_C51_C53_Narzo-N53-AndroidT-kernel-source/tree/4381465ccaf87fcf3215b9cd42f4a685df40e5e0/kernel_modules/kernel5.4/wcn/wlan/wlan_combo/sc2355).
+  Its sdio_suspend_resume_handle coordinates firmware sleep, while tx.c rejects
+  messages when hif->exit is set and clears that flag during reset.
+- [ZTE UMS9620 kernel source](https://github.com/dikeckaan/zte-ums9620-kernel-5.4.254/tree/main/drivers/unisoc_platform/sprdwcn/sdio).
+  Its SDIO transport has suspend/resume callbacks and sets MMC_PM_KEEP_POWER
+  dynamically. A missing keep-power-in-suspend device-tree property alone does
+  not establish why the RG556 fails.
+
+The [MU300 project's suspend findings](https://github.com/dikeckaan/mu300-linux/blob/main/docs/FINDINGS.md#37-system-suspend)
+describe a related driver family, but concern PCIe on a different device and
+kernel. They are investigation leads, not a verified patch for this SDIO fault.
+
+The available failure log shows SDIO command errors followed by driver-exit
+failures after resume. It does not capture where the exit flag was first set,
+so it does not yet distinguish power sequencing, card removal, firmware failure
+or an earlier driver shutdown. A native fix requires capturing that transition,
+checking the source/binary match and then correcting the responsible callback
+or recovery path. No replacement kernel or vendor module has been installed.
+
+An Android system-image upgrade that preserves these vendor components does
+not by itself establish that this fault is fixed. Validation must include
+repeated real suspend/resume cycles, a long unplugged sleep, successful scans
+and association afterwards, and no intervention by the recovery monitor.
+
 ## Optional automatic recovery
 
 The separate experimental module rg556_wifi_recovery follows **new** /dev/kmsg
