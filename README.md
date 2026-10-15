@@ -13,6 +13,7 @@ This repository contains source, a guarded module builder, verification and roll
 | Automatic scrolling after wake | Still under investigation; a short wake test is not proof of a fix. |
 | Standby battery consumption | Still under investigation. No battery fix is claimed. |
 | Wi-Fi unavailable after standby | SC2355 driver failure captured; Android subsystem recovery restored connectivity. Separate experimental automatic recovery available; next-failure validation pending. |
+| USB audio | Existing local Magisk module reviewed: removes duplicate USB routing from the primary HAL. Loaded topology verified; accessory playback/recording validation pending. See [review](docs/usb-audio-module-review.md). |
 | GammaOS 1.4.4 | No RG556 image has been built or released by this project. |
 
 See [Wi-Fi failure analysis and optional automatic recovery](docs/wifi-recovery.md)
