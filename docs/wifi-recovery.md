@@ -71,6 +71,11 @@ not by itself establish that this fault is fixed. Validation must include
 repeated real suspend/resume cycles, a long unplugged sleep, successful scans
 and association afterwards, and no intervention by the recovery monitor.
 
+A [bounded standby diagnostic](../diagnostics/README.md) is available to record
+the transition into the failure using temporary kernel probes. Initial
+USB-connected trials never reached system suspend and do not reproduce the
+conditions of the original fault.
+
 ## Optional automatic recovery
 
 The separate experimental module rg556_wifi_recovery follows **new** /dev/kmsg

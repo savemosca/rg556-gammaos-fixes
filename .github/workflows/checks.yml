@@ -27,3 +27,7 @@ jobs:
           sh -n wifi_recovery/module/service.sh
           sh -n wifi_recovery/module/uninstall.sh
           sh -n wifi_recovery/module/customize.sh
+      - name: Validate standby diagnostic sources
+        run: |
+          c++ -std=c++17 -Wall -Wextra -Werror diagnostics/standby_cycle.cpp -o build/standby-cycle
+          sh -n diagnostics/reproduce-wifi.sh
