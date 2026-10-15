@@ -18,3 +18,12 @@ jobs:
           python3 verify_rotation_patch.py --self-test
           python3 -m py_compile build_rotation_fix.py verify_rotation_patch.py
           sh -n restore.sh
+      - name: Validate Wi-Fi recovery policy
+        run: |
+          mkdir -p build
+          c++ -std=c++17 -Wall -Wextra -Werror wifi_recovery/monitor.cpp -o build/wifi-policy-test
+          build/wifi-policy-test
+          python3 -m py_compile wifi_recovery/build_module.py
+          sh -n wifi_recovery/module/service.sh
+          sh -n wifi_recovery/module/uninstall.sh
+          sh -n wifi_recovery/module/customize.sh

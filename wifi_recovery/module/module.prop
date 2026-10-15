@@ -1,0 +1,6 @@
+id=rg556_wifi_recovery
+name=RG556 GammaOS 1.2 Wi-Fi recovery
+version=0.1-experimental
+versionCode=1
+author=savemosca
+description=Recovers paired SC2355 driver errors while awake and Wi-Fi enabled. Experimental mitigation; driver root cause remains open.
